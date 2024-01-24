@@ -1,6 +1,7 @@
 package tech.nttuan.rp.util;
 
 import com.github.javafaker.Faker;
+import org.reactivestreams.Subscriber;
 
 import java.util.function.Consumer;
 
@@ -35,6 +36,14 @@ public class Util {
 
     public static void printThreadInfo() {
         System.out.println(Thread.currentThread().getId() + " - " + Thread.currentThread().getName());
+    }
+
+    public static Subscriber<Object> subscriber() {
+        return new DefaultSubscriber();
+    }
+
+    public static Subscriber<Object> subscriber(String name) {
+        return new DefaultSubscriber(name);
     }
 
 }
