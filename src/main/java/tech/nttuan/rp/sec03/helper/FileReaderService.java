@@ -5,7 +5,6 @@ import reactor.core.publisher.SynchronousSink;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,17 +19,20 @@ import java.util.function.Consumer;
 public class FileReaderService {
     private static final Path PATH = Paths.get("src/main/resources/assignment/sec03");
 
-    private static Callable<BufferedReader> openReader(String fileName) {
-        return () -> Files.newBufferedReader(PATH.resolve(fileName));
+    private static Callable<BufferedReader> openReader(Path filePath) {
+        return () -> Files.newBufferedReader(filePath);
     }
     private static BiFunction<BufferedReader, SynchronousSink<String>, BufferedReader> read = (br, sink) -> {
         try {
             String line = br.readLine();
-            sink.next(line);
+            if(line != null) {
+                sink.next(line);
+            } else {
+                sink.complete();
+            }
         } catch (IOException e) {
             sink.error(e);
         }
-        sink.complete();
         return br;
     };
     private static Consumer<BufferedReader> closeReader = br -> {
@@ -41,8 +43,8 @@ public class FileReaderService {
             System.err.println("Error closing reader... " + e.getMessage());
         }
     };
-    public static Flux<String> readFile(String filename) throws Exception {
+    public static Flux<String> read(String filename) {
         Path filePath = PATH.resolve(filename);
-        return Flux.generate(openReader(filename), read, closeReader);
+        return Flux.generate(openReader(filePath), read, closeReader);
     }
 }
