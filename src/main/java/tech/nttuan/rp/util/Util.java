@@ -35,7 +35,13 @@ public class Util {
     }
 
     public static void printThreadInfo() {
-        System.out.println(Thread.currentThread().getId() + " - " + Thread.currentThread().getName());
+        Thread currentThread = Thread.currentThread();
+        System.out.println(currentThread.getId() + "-" + currentThread.getName());
+    }
+
+    public static void printThreadInfo(Object value) {
+        Thread currentThread = Thread.currentThread();
+        System.out.println(value + "\t -> " + currentThread.getId() + "-" + currentThread.getName());
     }
 
     public static Subscriber<Object> subscriber() {
