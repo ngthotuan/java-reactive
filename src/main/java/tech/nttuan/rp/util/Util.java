@@ -26,9 +26,12 @@ public class Util {
     }
 
     public static void sleepSeconds(int seconds) {
+        sleepMilis(seconds * 1000);
+    }
+    public static void sleepMilis(int milis) {
         try {
-//            System.out.printf("sleep %s seconds\n", seconds);
-            Thread.sleep(seconds * 1000);
+//            System.out.printf("sleep %s milis\n", milis);
+            Thread.sleep(milis);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
