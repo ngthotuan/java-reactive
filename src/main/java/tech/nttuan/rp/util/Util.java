@@ -26,16 +26,25 @@ public class Util {
     }
 
     public static void sleepSeconds(int seconds) {
+        sleepMilis(seconds * 1000);
+    }
+    public static void sleepMilis(int milis) {
         try {
-//            System.out.printf("sleep %s seconds\n", seconds);
-            Thread.sleep(seconds * 1000);
+//            System.out.printf("sleep %s milis\n", milis);
+            Thread.sleep(milis);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void printThreadInfo() {
-        System.out.println(Thread.currentThread().getId() + " - " + Thread.currentThread().getName());
+        Thread currentThread = Thread.currentThread();
+        System.out.println(currentThread.getId() + "-" + currentThread.getName());
+    }
+
+    public static void printThreadInfo(Object value) {
+        Thread currentThread = Thread.currentThread();
+        System.out.println(value + "\t -> " + currentThread.getId() + "-" + currentThread.getName());
     }
 
     public static Subscriber<Object> subscriber() {
